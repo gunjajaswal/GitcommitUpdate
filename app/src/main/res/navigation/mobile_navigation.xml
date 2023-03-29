@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_home">
+
+    <fragment
+        android:id="@+id/nav_home"
+        android:name="com.example.gotour.ui.home.HomeFragment"
+        android:label="@string/title_home"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_nav_home_to_offerDetailFragment"
+            app:destination="@id/offerDetailFragment" />
+        <action
+            android:id="@+id/action_nav_home_to_hotelDetailFragment"
+            app:destination="@id/hotelDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/nav_profile"
+        android:name="com.example.gotour.ui.profile.ProfileFragment"
+        android:label="Profile"
+        tools:layout="@layout/fragment_offer" />
+    <fragment
+        android:id="@+id/nav_search"
+        android:name="com.example.gotour.ui.search.SearchFragment"
+        android:label="Search"
+        tools:layout="@layout/fragment_offer" />
+    <fragment
+        android:id="@+id/nav_trip"
+        android:name="com.example.gotour.ui.trip.TripFragment"
+        android:label="Trip"
+        tools:layout="@layout/fragment_offer" />
+    <fragment
+        android:id="@+id/nav_offer"
+        android:name="com.example.gotour.ui.offer.OfferFragment"
+        android:label="Offers"
+        tools:layout="@layout/fragment_offer" />
+    <fragment
+        android:id="@+id/hotelDetailFragment"
+        android:name="com.example.gotour.HotelDetailFragment"
+        android:label="fragment_hotel_detail"
+        tools:layout="@layout/fragment_hotel_detail" />
+    <fragment
+        android:id="@+id/offerDetailFragment"
+        android:name="com.example.gotour.OfferDetailFragment"
+        android:label="fragment_offer_detail"
+        tools:layout="@layout/fragment_offer_detail" />
+
+</navigation>

@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "618396355650",
+    "project_id": "go-tour-9f0cc",
+    "storage_bucket": "go-tour-9f0cc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:618396355650:android:fd44e1e6aded71c0d231db",
+        "android_client_info": {
+          "package_name": "com.example.gotour"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "618396355650-q3lamr96usr5spep3mfo4jb34bqaa1vb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.gotour",
+            "certificate_hash": "b5c9a6588d53155cc3fcf8b3db0b3748585d1fff"
+          }
+        },
+        {
+          "client_id": "618396355650-ujli84evtblv5260tft52g8ogpmf3d7c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDh2nuCynJfm5_EcLFzIHk_qnrJD01lnfs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "618396355650-fthss3ufnng8bc5nni1b3ltuiee2jrg5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
