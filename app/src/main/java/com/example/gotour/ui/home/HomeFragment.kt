@@ -10,7 +10,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.gotour.R
 import com.example.gotour.adapters.HotelsAdapter
 import com.example.gotour.adapters.OffersAdapter
@@ -74,7 +73,7 @@ class HomeFragment : Fragment() {
             (binding.offerList.adapter as OffersAdapter).submitList(it)
         }
 
-        viewModel.places.observe(viewLifecycleOwner){
+        viewModel.places.observe(viewLifecycleOwner) {
             Log.d("HomeFragment", "onViewCreated: $it")
             binding.placeList.layoutManager =
                 LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
@@ -103,10 +102,10 @@ class HomeFragment : Fragment() {
             }
         }
         binding.apply {
-                hotelImageView.setOnClickListener{
-                    findNavController().navigate(R.id.action_nav_home_to_hotelDetailFragment)
-                }
+            hotelImageView.setOnClickListener {
+                findNavController().navigate(R.id.action_nav_home_to_hotelDetailFragment)
             }
+        }
         binding.apply {
             fliteImage.setOnClickListener {
                 findNavController().navigate(R.id.action_nav_home_to_flightFragment)
@@ -115,41 +114,33 @@ class HomeFragment : Fragment() {
 
         }
         binding.apply {
-            offerImage.setOnClickListener{
+            offerImage.setOnClickListener {
                 findNavController().navigate(R.id.action_nav_home_to_offerDetailFragment)
             }
         }
         binding.apply {
-            tripTextView.setOnClickListener{
+            tripTextView.setOnClickListener {
                 findNavController().navigate(R.id.action_nav_home_to_nav_trip)
             }
         }
         binding.apply {
-            hotelTextView.setOnClickListener{
+            hotelTextView.setOnClickListener {
                 findNavController().navigate(R.id.action_nav_home_to_hotelDetailFragment)
             }
         }
         binding.apply {
-            flighttextView.setOnClickListener{
+            flighttextView.setOnClickListener {
                 findNavController().navigate(R.id.action_nav_home_to_flightFragment)
 
             }
 
         }
         binding.apply {
-            offerTextView.setOnClickListener{
+            offerTextView.setOnClickListener {
                 findNavController().navigate(R.id.action_nav_home_to_offerDetailFragment)
             }
         }
-        }
-
-
-
-
-
-
-
-
+    }
 
 
     override fun onDestroyView() {
@@ -157,7 +148,7 @@ class HomeFragment : Fragment() {
         _binding = null
     }
 
-    companion object{
+    companion object {
         const val col_hotel = "hotel"
         const val col_offer = "offer"
         const val col_place = "place"

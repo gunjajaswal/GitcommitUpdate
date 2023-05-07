@@ -1,18 +1,14 @@
 package com.example.gotour.adapters
 
 
-import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.gotour.R
 import com.example.gotour.databinding.HotelsLayoutBinding
 import com.example.gotour.models.HotelsNear
-import com.google.android.play.core.integrity.p
 
 
 class HotelsAdapter(
@@ -45,15 +41,13 @@ class HotelsAdapter(
     class HotelDiff : DiffUtil.ItemCallback<HotelsNear>() {
         override fun areItemsTheSame(oldItem: HotelsNear, newItem: HotelsNear): Boolean {
             return oldItem == newItem
-            return oldItem == newItem
-            return oldItem == newItem
+
 
         }
 
         override fun areContentsTheSame(oldItem: HotelsNear, newItem: HotelsNear): Boolean {
             return oldItem.name == newItem.name
-            return oldItem.price == newItem.price
-            return oldItem.rating ==newItem.rating
+
         }
     }
 
