@@ -7,18 +7,9 @@ import coil.load
 import com.example.gotour.ui.home.OfferState
 
 
-@BindingAdapter("set_image")
-fun ImageView.setImage(url: String) {
-    url.let {
-        load(it)
-    }
-}
-
-@BindingAdapter("set_image")
-fun ImageView.setImage(url: Int) {
-    url.let {
-        load(it)
-    }
+@BindingAdapter("load_image")
+fun ImageView.setImage(url: String?) {
+    load(url)
 }
 
 
@@ -33,7 +24,7 @@ fun ProgressBar.setVisibility(isVisible: Boolean) {
 }
 
 @BindingAdapter("set_save_state")
-fun ProgressBar.setVisibilty(state: OfferState) {
+fun ProgressBar.setVisibility(state: OfferState) {
     visibility = if (state == OfferState.LOADING) {
         ProgressBar.VISIBLE
     } else {

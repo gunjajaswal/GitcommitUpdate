@@ -24,6 +24,7 @@ class HotelsAdapter(
         fun bind(hotel: HotelsNear) {
             binding.hotel = hotel
             binding.executePendingBindings()
+
         }
     }
 
@@ -44,10 +45,15 @@ class HotelsAdapter(
     class HotelDiff : DiffUtil.ItemCallback<HotelsNear>() {
         override fun areItemsTheSame(oldItem: HotelsNear, newItem: HotelsNear): Boolean {
             return oldItem == newItem
+            return oldItem == newItem
+            return oldItem == newItem
+
         }
 
         override fun areContentsTheSame(oldItem: HotelsNear, newItem: HotelsNear): Boolean {
             return oldItem.name == newItem.name
+            return oldItem.price == newItem.price
+            return oldItem.rating ==newItem.rating
         }
     }
 

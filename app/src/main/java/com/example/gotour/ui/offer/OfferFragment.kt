@@ -10,10 +10,6 @@ import com.example.gotour.R
 
 class OfferFragment : Fragment() {
 
-    companion object {
-        fun newInstance() = OfferFragment()
-    }
-
     private lateinit var viewModel: OfferViewModel
 
     override fun onCreateView(
@@ -26,7 +22,8 @@ class OfferFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(OfferViewModel::class.java)
-        // TODO: Use the ViewModel
+        // TODO: Use the ViewMode
+
     }
 
 }

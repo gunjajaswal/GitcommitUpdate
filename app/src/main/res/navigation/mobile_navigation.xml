@@ -16,6 +16,27 @@
         <action
             android:id="@+id/action_nav_home_to_hotelDetailFragment"
             app:destination="@id/hotelDetailFragment" />
+        <action
+            android:id="@+id/action_nav_home_to_nav_profile"
+            app:destination="@id/nav_profile" />
+        <action
+            android:id="@+id/action_nav_home_to_nav_search"
+            app:destination="@id/nav_search" />
+        <action
+            android:id="@+id/action_nav_home_to_nav_trip"
+            app:destination="@id/nav_trip" />
+        <action
+            android:id="@+id/action_nav_home_to_nav_offer"
+            app:destination="@id/nav_offer" />
+        <action
+            android:id="@+id/action_nav_home_to_nav_offer2"
+            app:destination="@id/nav_offer" />
+        <action
+            android:id="@+id/action_nav_home_to_flightFragment"
+            app:destination="@id/flightFragment" />
+        <action
+            android:id="@+id/action_nav_home_to_cityInformation"
+            app:destination="@id/cityInformation" />
     </fragment>
     <fragment
         android:id="@+id/nav_profile"
@@ -39,7 +60,7 @@
         tools:layout="@layout/fragment_offer" />
     <fragment
         android:id="@+id/hotelDetailFragment"
-        android:name="com.example.gotour.HotelDetailFragment"
+        android:name="com.example.gotour.ui.home.HotelDetailFragment"
         android:label="fragment_hotel_detail"
         tools:layout="@layout/fragment_hotel_detail" />
     <fragment
@@ -47,5 +68,15 @@
         android:name="com.example.gotour.OfferDetailFragment"
         android:label="fragment_offer_detail"
         tools:layout="@layout/fragment_offer_detail" />
+    <fragment
+        android:id="@+id/flightFragment"
+        android:name="com.example.gotour.FlightFragment"
+        android:label="fragment_flight"
+        tools:layout="@layout/fragment_flight" />
+    <fragment
+        android:id="@+id/cityInformation"
+        android:name="com.example.gotour.ui.home.CityInformation"
+        android:label="fragment_city_information"
+        tools:layout="@layout/fragment_city_information" />
 
 </navigation>
