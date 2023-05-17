@@ -1,5 +1,6 @@
 package com.example.gotour.adapters
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -24,6 +25,7 @@ class PlaceAdapter (private val listener: (Place) -> Unit): ListAdapter<Place, P
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(getItem(position))
+        Log.d("HomeFragment", "onViewCreated: ${getItem(position)}")
         holder.itemView.setOnClickListener { listener(getItem(position)) }
     }
 

@@ -83,11 +83,19 @@ class HomeFragment : Fragment() {
             }
             (binding.placeList.adapter as PlaceAdapter).submitList(it)
         }
+        viewModel.resetPlaceState()
+        binding.placeList.setOnClickListener {
+            findNavController().navigate(R.id.action_nav_home_to_cityInformation)
+        }
+        
+
+
         binding.apply {
             hotelList.setOnClickListener {
                 findNavController().navigate(R.id.action_nav_home_to_hotelDetailFragment)
             }
         }
+
 
         binding.apply {
             offerList.setOnClickListener {

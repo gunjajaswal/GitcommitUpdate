@@ -52,7 +52,11 @@
         android:id="@+id/nav_trip"
         android:name="com.example.gotour.ui.trip.TripFragment"
         android:label="Trip"
-        tools:layout="@layout/fragment_offer" />
+        tools:layout="@layout/fragment_offer" >
+        <action
+            android:id="@+id/action_nav_trip_to_cityInformation"
+            app:destination="@id/cityInformation" />
+    </fragment>
     <fragment
         android:id="@+id/nav_offer"
         android:name="com.example.gotour.ui.offer.OfferFragment"
@@ -75,8 +79,12 @@
         tools:layout="@layout/fragment_flight" />
     <fragment
         android:id="@+id/cityInformation"
-        android:name="com.example.gotour.ui.home.CityInformation"
+        android:name="com.example.gotour.ui.home.CityInformationFragment"
         android:label="fragment_city_information"
-        tools:layout="@layout/fragment_city_information" />
+        tools:layout="@layout/fragment_city_information" >
+        <action
+            android:id="@+id/action_cityInformation_to_hotelDetailFragment"
+            app:destination="@id/hotelDetailFragment" />
+    </fragment>
 
 </navigation>

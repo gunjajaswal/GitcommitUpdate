@@ -1,10 +1,10 @@
 package com.example.gotour.ui.home
 
-import android.media.Rating
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.gotour.models.CityInformation
 import com.example.gotour.models.HotelsNear
 import com.example.gotour.models.Offer
 import com.example.gotour.models.Place
@@ -12,7 +12,6 @@ import com.example.gotour.ui.home.HomeFragment.Companion.col_hotel
 import com.example.gotour.ui.home.HomeFragment.Companion.col_offer
 import com.example.gotour.ui.home.HomeFragment.Companion.col_place
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.ktx.toObject
 
 enum class OfferState { LOADING, SAVED, ERROR, NONE }
 enum class HotelState { LOADING, SAVED, ERROR, NONE }
@@ -23,11 +22,18 @@ class HomeViewModel : ViewModel() {
     private val _offers = MutableLiveData<List<Offer>>()
     val offers: LiveData<List<Offer>> = _offers
 
+
     private val _hotels = MutableLiveData<List<HotelsNear>>()
     val hotelList: LiveData<List<HotelsNear>> = _hotels
 
     private val _places = MutableLiveData<List<Place>>()
     val places: LiveData<List<Place>> = _places
+
+    private val _city= MutableLiveData<List<CityInformation>>()
+    val city:LiveData<List<CityInformation>> = _city
+
+
+
 
     private val _selectOffer = MutableLiveData<Offer>()
     val selectOffer: LiveData<Offer> = _selectOffer
@@ -38,6 +44,10 @@ class HomeViewModel : ViewModel() {
     private val _selectPlace = MutableLiveData<Place>()
     val selectPlace: LiveData<Place> = _selectPlace
 
+    private val _selectedCity= MutableLiveData<CityInformation>()
+    val selectedCity:LiveData<CityInformation> = _selectedCity
+
+
     private val _saveStateOffer = MutableLiveData<OfferState>(OfferState.NONE)
     val savestateOffer: LiveData<OfferState> = _saveStateOffer
 
@@ -46,6 +56,12 @@ class HomeViewModel : ViewModel() {
 
     private val _saveStatePlace = MutableLiveData<PlaceState>(PlaceState.NONE)
     val savestatePlace: LiveData<PlaceState> = _saveStatePlace
+
+    private val _savesStateCity= MutableLiveData<CityState>(CityState.NONE)
+    val savesStateCity:LiveData<CityState> = _savesStateCity
+
+
+
 
 
     fun getOffers(db: FirebaseFirestore) {
@@ -60,6 +76,16 @@ class HomeViewModel : ViewModel() {
         loadPlaces(db)
 
     }
+
+    fun getCity(db: FirebaseFirestore){
+        loadCity(db)
+    }
+
+
+
+
+
+
 
     private fun loadHotel(db: FirebaseFirestore) {
         _saveStateHotel.value = HotelState.LOADING
@@ -108,6 +134,21 @@ class HomeViewModel : ViewModel() {
 
     }
 
+    private fun loadCity(db: FirebaseFirestore) {
+        _savesStateCity.value=CityState.LOADING
+        db.collection(CityInformationFragment.col_city).get().addOnFailureListener {
+            Log.e("CityViewModel", "Error Fetching city ${it.message}")
+        }.addOnCanceledListener {
+            Log.e("CityViewModel", "Fetching city canceled")
+        }.addOnSuccessListener {
+            val cities=it.toObjects(CityInformation::class.java)
+            _city.value=cities
+            Log.d("CityViewModel", "Cities Loaded ${cities.size}")
+
+
+        }
+    }
+
     fun setOffer(offer: Offer) {
         _selectOffer.value = offer
     }
@@ -118,6 +159,10 @@ class HomeViewModel : ViewModel() {
 
     fun setPlace(place: Place) {
         _selectPlace.value = place
+    }
+
+    fun setCity(city: CityInformation) {
+        _selectedCity.value=city
     }
 
     fun deleteOffers(db: FirebaseFirestore) {
@@ -141,7 +186,7 @@ class HomeViewModel : ViewModel() {
                 if (!it.isEmpty) {
                     db.collection(col_hotel).document(it.documents[0].id).delete()
                         .addOnSuccessListener {
-                            loadOffers(db)
+                            loadHotel(db)
                         }
                 }
             }
@@ -160,6 +205,20 @@ class HomeViewModel : ViewModel() {
                         }
                 }
             }
+    }
+
+    fun deleteCity(db: FirebaseFirestore) {
+        db.collection(CityInformationFragment.col_city).whereEqualTo("name", _selectedCity.value?.image).get()
+            .addOnSuccessListener {
+                if (!it.isEmpty) {
+                    db.collection(CityInformationFragment.col_city).document(it.documents[0].id).delete()
+                        .addOnSuccessListener {
+                            loadCity(db)
+                        }
+                }
+            }
+
+
     }
 
         fun updatehotel(
@@ -263,6 +322,43 @@ class HomeViewModel : ViewModel() {
                 }
         }
 
+    fun updateCity(db: FirebaseFirestore,
+                   image:String,
+                   name:String,
+                   rating:Float,
+                   meters:Float){
+        _savesStateCity.value=CityState.LOADING
+        db.collection(CityInformationFragment.col_city).whereEqualTo("name",_selectedCity.value?.name).get()
+        db.collection(CityInformationFragment.col_city).whereEqualTo("image",_selectedCity.value?.image).get()
+        db.collection(CityInformationFragment.col_city).whereEqualTo("rating",_selectedCity.value?.rating).get()
+        db.collection(CityInformationFragment.col_city).whereEqualTo("meters",_selectedCity.value?.meters).get()
+            .addOnSuccessListener {query ->
+                if (query.isEmpty){
+                    _savesStateCity.value=CityState.ERROR
+                } else{
+                    val city=query.documents[0].toObject(CityInformation::class.java)
+                    city?.let {
+                        it.image
+                        it.name
+
+                        it.rating
+
+                        it.meters
+                        db.collection(CityInformationFragment.col_city).document(query.documents[0].id).set(it)
+                            .addOnSuccessListener {
+                                _savesStateCity.value=CityState.ERROR
+
+                            }.addOnFailureListener {
+                                _savesStateCity.value=CityState.ERROR
+                            }
+                    }
+                }
+
+            }.addOnFailureListener(){
+                _savesStateCity.value=CityState.ERROR
+            }
+    }
+
 
         fun resetPlaceState() {
             _saveStatePlace.value = PlaceState.NONE
@@ -276,7 +372,13 @@ class HomeViewModel : ViewModel() {
         fun resetHotelState() {
             _saveStateHotel.value = HotelState.NONE
         }
+
+    fun resetCityState(){
+        _savesStateCity.value=CityState.NONE
     }
+
+
+}
 
 
 

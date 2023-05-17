@@ -45,12 +45,8 @@ class HotelDetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.apply {
-        detailtextview.setOnClickListener{
-            findNavController().navigate(R.id.action_nav_home_to_hotelDetailFragment)
-        }
 
-        }
+
 
         }
 
