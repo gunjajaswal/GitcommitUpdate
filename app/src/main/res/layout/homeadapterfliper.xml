@@ -40,7 +40,8 @@
 
                 android:scaleType="fitXY"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/tajmahal" />
+                app:srcCompat="@drawable/tajmahal"
+                load_image="@{place.image}"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -59,7 +60,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="16dp"
-                        android:text="TajMahal"
+                        android:text="@{place.name}"
                         android:textColor="#000000"
                         android:textSize="24sp"
                         app:layout_constraintStart_toStartOf="parent"
@@ -73,7 +74,7 @@
                         android:layout_marginStart="24dp"
                         android:layout_marginTop="8dp"
                         android:layout_marginBottom="16dp"
-                        android:text="Agra"
+                        android:text="@{place.place}"
                         android:textColor="@color/black"
                         android:textSize="20sp"
                         android:textStyle="bold"
