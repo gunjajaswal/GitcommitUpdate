@@ -140,7 +140,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="28dp"
                 android:layout_marginTop="28dp"
-                android:text="Levana"
+                android:text="@{viewModel.selectHotel.name}"
                 android:textColor="#000000"
                 android:textSize="30sp"
                 android:textStyle="bold"

@@ -1,22 +1,19 @@
 package com.example.gotour.ui.home
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.fragment.findNavController
 import com.example.gotour.R
-import com.example.gotour.databinding.FragmentHomeBinding
 import com.example.gotour.databinding.FragmentHotelDetailBinding
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-
-
 
 
 class HotelDetailFragment : Fragment() {
@@ -34,20 +31,22 @@ class HotelDetailFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = DataBindingUtil.inflate(inflater, R.layout.fragment_hotel_detail, container, false)
+        _binding =
+            DataBindingUtil.inflate(inflater, R.layout.fragment_hotel_detail, container, false)
         val root: View = binding.root
-//        binding.viewModel = viewModel
+        binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
         return root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-
+        binding.button2.setOnClickListener {
+            val address = viewModel.selectHotel.value?.address
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("geo:0,0?q=$address"))
+            startActivity(intent)
         }
-
-
+    }
 
 
     override fun onDestroyView() {
@@ -55,7 +54,7 @@ class HotelDetailFragment : Fragment() {
         _binding = null
     }
 
-    companion object{
+    companion object {
         const val col_hotel = "hotel"
     }
 }
