@@ -11,14 +11,18 @@ import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.gotour.databinding.CityLayoutBinding
-
+import com.example.gotour.databinding.FragmentCityMainAttractionBinding
 
 
 class CityMainAttraction : Fragment() {
 
 
 
+
     private var _binding: CityLayoutBinding? = null
+
+
+
     private val binding get() = _binding!!
 
     override fun onCreateView(

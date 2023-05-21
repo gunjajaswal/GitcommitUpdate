@@ -47,7 +47,6 @@ class HotelDetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
 
-
         }
 
 
