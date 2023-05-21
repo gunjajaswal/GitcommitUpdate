@@ -24,8 +24,6 @@ class HotelDetailFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var db: FirebaseFirestore
     private val viewModel: HomeViewModel by activityViewModels()
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         db = Firebase.firestore
@@ -38,7 +36,7 @@ class HotelDetailFragment : Fragment() {
     ): View {
         _binding = DataBindingUtil.inflate(inflater, R.layout.fragment_hotel_detail, container, false)
         val root: View = binding.root
-        binding.viewModel = viewModel
+//        binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
         return root
     }

@@ -76,7 +76,7 @@
                     android:scaleType="fitXY"
                     app:shapeAppearanceOverlay="@style/Widget.MaterialComponents.ShapeableImageView.Corner"
                     app:srcCompat="@drawable/hotel2"
-                    load_image="@{hotel.image}">
+                    load_image="@{viewModel.selectHotel.image}">
 
                 </com.google.android.material.imageview.ShapeableImageView>
 

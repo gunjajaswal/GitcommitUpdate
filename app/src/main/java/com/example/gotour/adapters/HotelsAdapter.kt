@@ -20,7 +20,6 @@ class HotelsAdapter(
         fun bind(hotel: HotelsNear) {
             binding.hotel = hotel
             binding.executePendingBindings()
-
         }
     }
 

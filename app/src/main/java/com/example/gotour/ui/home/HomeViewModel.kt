@@ -15,8 +15,8 @@ import com.google.firebase.firestore.FirebaseFirestore
 
 enum class OfferState { LOADING, SAVED, ERROR, NONE }
 enum class HotelState { LOADING, SAVED, ERROR, NONE }
-
 enum class PlaceState { LOADING, SAVED, ERROR, NONE }
+
 class HomeViewModel : ViewModel() {
 
     private val _offers = MutableLiveData<List<Offer>>()
@@ -29,11 +29,8 @@ class HomeViewModel : ViewModel() {
     private val _places = MutableLiveData<List<Place>>()
     val places: LiveData<List<Place>> = _places
 
-    private val _city= MutableLiveData<List<CityInformation>>()
-    val city:LiveData<List<CityInformation>> = _city
-
-
-
+    private val _city = MutableLiveData<List<CityInformation>>()
+    val city: LiveData<List<CityInformation>> = _city
 
     private val _selectOffer = MutableLiveData<Offer>()
     val selectOffer: LiveData<Offer> = _selectOffer
@@ -44,8 +41,8 @@ class HomeViewModel : ViewModel() {
     private val _selectPlace = MutableLiveData<Place>()
     val selectPlace: LiveData<Place> = _selectPlace
 
-    private val _selectedCity= MutableLiveData<CityInformation>()
-    val selectedCity:LiveData<CityInformation> = _selectedCity
+    private val _selectedCity = MutableLiveData<CityInformation>()
+    val selectedCity: LiveData<CityInformation> = _selectedCity
 
 
     private val _saveStateOffer = MutableLiveData<OfferState>(OfferState.NONE)
@@ -56,12 +53,6 @@ class HomeViewModel : ViewModel() {
 
     private val _saveStatePlace = MutableLiveData<PlaceState>(PlaceState.NONE)
     val savestatePlace: LiveData<PlaceState> = _saveStatePlace
-
-    private val _savesStateCity= MutableLiveData<CityState>(CityState.NONE)
-    val savesStateCity:LiveData<CityState> = _savesStateCity
-
-
-
 
 
     fun getOffers(db: FirebaseFirestore) {
@@ -77,14 +68,9 @@ class HomeViewModel : ViewModel() {
 
     }
 
-    fun getCity(db: FirebaseFirestore){
+    fun getCity(db: FirebaseFirestore) {
         loadCity(db)
     }
-
-
-
-
-
 
 
     private fun loadHotel(db: FirebaseFirestore) {
@@ -135,14 +121,14 @@ class HomeViewModel : ViewModel() {
     }
 
     private fun loadCity(db: FirebaseFirestore) {
-        _savesStateCity.value=CityState.LOADING
+
         db.collection(CityInformationFragment.col_city).get().addOnFailureListener {
             Log.e("CityViewModel", "Error Fetching city ${it.message}")
         }.addOnCanceledListener {
             Log.e("CityViewModel", "Fetching city canceled")
         }.addOnSuccessListener {
-            val cities=it.toObjects(CityInformation::class.java)
-            _city.value=cities
+            val cities = it.toObjects(CityInformation::class.java)
+            _city.value = cities
             Log.d("CityViewModel", "Cities Loaded ${cities.size}")
 
 
@@ -162,7 +148,7 @@ class HomeViewModel : ViewModel() {
     }
 
     fun setCity(city: CityInformation) {
-        _selectedCity.value=city
+        _selectedCity.value = city
     }
 
     fun deleteOffers(db: FirebaseFirestore) {
@@ -208,10 +194,12 @@ class HomeViewModel : ViewModel() {
     }
 
     fun deleteCity(db: FirebaseFirestore) {
-        db.collection(CityInformationFragment.col_city).whereEqualTo("name", _selectedCity.value?.image).get()
+        db.collection(CityInformationFragment.col_city)
+            .whereEqualTo("name", _selectedCity.value?.image).get()
             .addOnSuccessListener {
                 if (!it.isEmpty) {
-                    db.collection(CityInformationFragment.col_city).document(it.documents[0].id).delete()
+                    db.collection(CityInformationFragment.col_city).document(it.documents[0].id)
+                        .delete()
                         .addOnSuccessListener {
                             loadCity(db)
                         }
@@ -221,122 +209,126 @@ class HomeViewModel : ViewModel() {
 
     }
 
-        fun updatehotel(
-            db: FirebaseFirestore,
-            name: String,
-            price: String,
-            rating: Int
-        ) {
-            _saveStateHotel.value = HotelState.LOADING
-            db.collection(col_hotel).whereEqualTo("name", _selectHotel.value?.name).get()
-            db.collection(col_hotel).whereEqualTo("price", _selectHotel.value?.price).get()
-            db.collection(col_hotel).whereEqualTo("rating", _selectHotel.value?.rating).get()
+    fun updatehotel(
+        db: FirebaseFirestore,
+        name: String,
+        price: String,
+        rating: Int
+    ) {
+        _saveStateHotel.value = HotelState.LOADING
+        db.collection(col_hotel).whereEqualTo("name", _selectHotel.value?.name).get()
+        db.collection(col_hotel).whereEqualTo("price", _selectHotel.value?.price).get()
+        db.collection(col_hotel).whereEqualTo("rating", _selectHotel.value?.rating).get()
 
 
-                .addOnSuccessListener { query ->
-                    if (query.isEmpty) {
-                        _saveStateHotel.value = HotelState.ERROR
-                    } else {
-                        val hotel = query.documents[0].toObject(HotelsNear::class.java)
-                        hotel?.let {
-                            it.name
-                            it.price
-                            it.rating
-                            db.collection(col_hotel).document(query.documents[0].id).set(it)
-                                .addOnSuccessListener {
-                                    _saveStateHotel.value = HotelState.ERROR
-                                }.addOnFailureListener {
-                                    _saveStateHotel.value = HotelState.ERROR
-                                }
-                        }
-                    }
-                }.addOnFailureListener {
+            .addOnSuccessListener { query ->
+                if (query.isEmpty) {
                     _saveStateHotel.value = HotelState.ERROR
-                }
-
-
-        }
-
-        fun updateoffer(
-            db: FirebaseFirestore,
-            expiry: String,
-            discount: String,
-        ) {
-            _saveStateOffer.value = OfferState.LOADING
-            db.collection(col_offer).whereEqualTo("discount", _selectOffer.value?.discount).get()
-                .addOnSuccessListener { query ->
-                    if (query.isEmpty) {
-                        _saveStateOffer.value = OfferState.ERROR
-                    } else {
-                        val offer = query.documents[0].toObject(Offer::class.java)
-                        offer?.let {
-                            it.expiry
-                            it.discount
-
-                            db.collection(col_offer).document(query.documents[0].id).set(it)
-                                .addOnSuccessListener {
-                                    _saveStateOffer.value = OfferState.ERROR
-                                }.addOnFailureListener {
-                                    _saveStateOffer.value = OfferState.ERROR
-                                }
-                        }
+                } else {
+                    val hotel = query.documents[0].toObject(HotelsNear::class.java)
+                    hotel?.let {
+                        it.name
+                        it.price
+                        it.rating
+                        db.collection(col_hotel).document(query.documents[0].id).set(it)
+                            .addOnSuccessListener {
+                                _saveStateHotel.value = HotelState.ERROR
+                            }.addOnFailureListener {
+                                _saveStateHotel.value = HotelState.ERROR
+                            }
                     }
-                }.addOnFailureListener {
+                }
+            }.addOnFailureListener {
+                _saveStateHotel.value = HotelState.ERROR
+            }
+
+
+    }
+
+    fun updateoffer(
+        db: FirebaseFirestore,
+        expiry: String,
+        discount: String,
+    ) {
+        _saveStateOffer.value = OfferState.LOADING
+        db.collection(col_offer).whereEqualTo("discount", _selectOffer.value?.discount).get()
+            .addOnSuccessListener { query ->
+                if (query.isEmpty) {
                     _saveStateOffer.value = OfferState.ERROR
-                }
+                } else {
+                    val offer = query.documents[0].toObject(Offer::class.java)
+                    offer?.let {
+                        it.expiry
+                        it.discount
 
-
-        }
-
-        fun updateplace(
-            db: FirebaseFirestore,
-            name: String,
-            place: String,
-            image: String
-        ) {
-            _saveStatePlace.value = PlaceState.LOADING
-            db.collection(col_place).whereEqualTo("name", _selectPlace.value?.name).get()
-            db.collection(col_place).whereEqualTo("place", _selectPlace.value?.place).get()
-            db.collection(col_place).whereEqualTo("image", _selectPlace.value?.image).get()
-                .addOnSuccessListener { query ->
-                    if (query.isEmpty) {
-                        _saveStatePlace.value = PlaceState.ERROR
-                    } else {
-                        val place = query.documents[0].toObject(Place::class.java)
-                        place?.let {
-                            it.name
-                            it.place
-                            it.image
-
-                            db.collection(col_place).document(query.documents[0].id).set(it)
-                                .addOnSuccessListener {
-                                    _saveStatePlace.value = PlaceState.ERROR
-                                }.addOnFailureListener {
-                                    _saveStatePlace.value = PlaceState.ERROR
-                                }
-                        }
+                        db.collection(col_offer).document(query.documents[0].id).set(it)
+                            .addOnSuccessListener {
+                                _saveStateOffer.value = OfferState.ERROR
+                            }.addOnFailureListener {
+                                _saveStateOffer.value = OfferState.ERROR
+                            }
                     }
-                }.addOnFailureListener {
-                    _saveStatePlace.value = PlaceState.ERROR
-
                 }
-        }
+            }.addOnFailureListener {
+                _saveStateOffer.value = OfferState.ERROR
+            }
 
-    fun updateCity(db: FirebaseFirestore,
-                   image:String,
-                   name:String,
-                   rating:Float,
-                   meters:Float){
-        _savesStateCity.value=CityState.LOADING
-        db.collection(CityInformationFragment.col_city).whereEqualTo("name",_selectedCity.value?.name).get()
-        db.collection(CityInformationFragment.col_city).whereEqualTo("image",_selectedCity.value?.image).get()
-        db.collection(CityInformationFragment.col_city).whereEqualTo("rating",_selectedCity.value?.rating).get()
-        db.collection(CityInformationFragment.col_city).whereEqualTo("meters",_selectedCity.value?.meters).get()
-            .addOnSuccessListener {query ->
-                if (query.isEmpty){
-                    _savesStateCity.value=CityState.ERROR
-                } else{
-                    val city=query.documents[0].toObject(CityInformation::class.java)
+
+    }
+
+    fun updateplace(
+        db: FirebaseFirestore,
+        name: String,
+        place: String,
+        image: String
+    ) {
+        _saveStatePlace.value = PlaceState.LOADING
+        db.collection(col_place).whereEqualTo("name", _selectPlace.value?.name).get()
+        db.collection(col_place).whereEqualTo("place", _selectPlace.value?.place).get()
+        db.collection(col_place).whereEqualTo("image", _selectPlace.value?.image).get()
+            .addOnSuccessListener { query ->
+                if (query.isEmpty) {
+                    _saveStatePlace.value = PlaceState.ERROR
+                } else {
+                    val place = query.documents[0].toObject(Place::class.java)
+                    place?.let {
+                        it.name
+                        it.place
+                        it.image
+
+                        db.collection(col_place).document(query.documents[0].id).set(it)
+                            .addOnSuccessListener {
+                                _saveStatePlace.value = PlaceState.ERROR
+                            }.addOnFailureListener {
+                                _saveStatePlace.value = PlaceState.ERROR
+                            }
+                    }
+                }
+            }.addOnFailureListener {
+                _saveStatePlace.value = PlaceState.ERROR
+
+            }
+    }
+
+    fun updateCity(
+        db: FirebaseFirestore,
+        image: String,
+        name: String,
+        rating: Float,
+        meters: Float
+    ) {
+        db.collection(CityInformationFragment.col_city)
+            .whereEqualTo("name", _selectedCity.value?.name).get()
+        db.collection(CityInformationFragment.col_city)
+            .whereEqualTo("image", _selectedCity.value?.image).get()
+        db.collection(CityInformationFragment.col_city)
+            .whereEqualTo("rating", _selectedCity.value?.rating).get()
+        db.collection(CityInformationFragment.col_city)
+            .whereEqualTo("meters", _selectedCity.value?.meters).get()
+            .addOnSuccessListener { query ->
+                if (query.isEmpty) {
+                } else {
+                    val city = query.documents[0].toObject(CityInformation::class.java)
                     city?.let {
                         it.image
                         it.name
@@ -344,38 +336,36 @@ class HomeViewModel : ViewModel() {
                         it.rating
 
                         it.meters
-                        db.collection(CityInformationFragment.col_city).document(query.documents[0].id).set(it)
+                        db.collection(CityInformationFragment.col_city)
+                            .document(query.documents[0].id).set(it)
                             .addOnSuccessListener {
-                                _savesStateCity.value=CityState.ERROR
+
 
                             }.addOnFailureListener {
-                                _savesStateCity.value=CityState.ERROR
+
                             }
                     }
                 }
 
-            }.addOnFailureListener(){
-                _savesStateCity.value=CityState.ERROR
+            }.addOnFailureListener() {
+
             }
     }
 
 
-        fun resetPlaceState() {
-            _saveStatePlace.value = PlaceState.NONE
-        }
-
-
-        fun resetOfferState() {
-            _saveStateOffer.value = OfferState.NONE
-        }
-
-        fun resetHotelState() {
-            _saveStateHotel.value = HotelState.NONE
-        }
-
-    fun resetCityState(){
-        _savesStateCity.value=CityState.NONE
+    fun resetPlaceState() {
+        _saveStatePlace.value = PlaceState.NONE
     }
+
+
+    fun resetOfferState() {
+        _saveStateOffer.value = OfferState.NONE
+    }
+
+    fun resetHotelState() {
+        _saveStateHotel.value = HotelState.NONE
+    }
+
 
 
 }
